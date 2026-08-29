@@ -123,59 +123,58 @@ Here is the exact journey of a signal through Ledger:
 
 ```mermaid
 flowchart TD
-    subgraph SOURCES ["1. SIGNAL SOURCES"]
-        S1["GitHub REST API<br/>(Issues, PRs, Workflows)"]
-        S2["Public Status Feed<br/>(Service Outages, Degradation)"]
-        S3["Ledger Telemetry<br/>(CPU, Memory, Infra Spikes)"]
+    subgraph SOURCES["1. SIGNAL SOURCES"]
+        S1["GitHub REST API"]
+        S2["Public Status Feed"]
+        S3["Ledger Telemetry"]
     end
 
-    subgraph INGESTION ["2. INGESTION LAYER"]
-        ING["IngestionService & EventNormalizer<br/>• Normalizes to canonical SignalEvent<br/>• Payload validation & 2MB limit<br/>• SHA-256 fingerprint hashing"]
+    subgraph INGESTION["2. INGESTION LAYER"]
+        ING["IngestionService & EventNormalizer"]
     end
 
-    subgraph QUEUE ["3. EVENT QUEUE"]
-        EQ["Stream Queue Broker<br/>(Redis Streams / MemoryStreamBroker)<br/>• Buffers incoming normalized signals"]
+    subgraph QUEUE["3. EVENT QUEUE"]
+        EQ["Stream Queue Broker (Redis / Memory)"]
     end
 
-    subgraph COALESCING ["4. EVENT COALESCING"]
-        COAL["CoalescingService<br/>• 5-min sliding window grouping<br/>• Deduplicates exact & temporal signals<br/>• Groups events into logical Incidents"]
+    subgraph COALESCING["4. EVENT COALESCING"]
+        COAL["CoalescingService (Deduplicate & Group)"]
     end
 
-    subgraph VALUATION ["5. VALUE ESTIMATOR"]
-        VE["ValueEstimationService<br/>• Urgency × Consequence / Compute Cost<br/>• AI LLM Estimator + Rule-Based Fallback<br/>• Computes Value per Compute (VpC)"]
+    subgraph VALUATION["5. VALUE ESTIMATOR"]
+        VE["ValueEstimationService (AI & Rule-Based)"]
     end
 
-    subgraph ADMISSION ["6. ADMISSION CONTROL"]
-        AC["AdmissionController<br/>• Deterministic VpC evaluation<br/>• System capacity & tenant quota check<br/>• Aging starvation prevention guard"]
-        ADMIT_PATH["ADMIT<br/>(High-Value Work)"]
-        DEFER_PATH["DEFER<br/>(Backpressure Queue)"]
-        SHED_PATH["SHED<br/>(Low-Value Noise Dropped)"]
+    subgraph ADMISSION["6. ADMISSION CONTROL"]
+        AC["AdmissionController (VpC Evaluation)"]
+        ADMIT_PATH["ADMIT"]
+        DEFER_PATH["DEFER"]
+        SHED_PATH["SHED"]
     end
 
-    subgraph EXECUTION ["7. EXECUTION POOL & WORKERS"]
+    subgraph EXECUTION["7. EXECUTION POOL & WORKERS"]
         SUP["WorkerPool Supervisor"]
         W1["LedgerWorker 1"]
         W2["LedgerWorker 2"]
         W3["LedgerWorker 3"]
     end
 
-    subgraph IDEMPOTENCY ["8. IDEMPOTENCY & CHECKPOINT STORE"]
-        IDEM["IdempotencyRepository (SQLite WAL)<br/>• Composite Key: tenant_id + event_id + action_type<br/>• Atomic claims & side-effect protection"]
+    subgraph IDEMPOTENCY["8. IDEMPOTENCY & CHECKPOINT STORE"]
+        IDEM["IdempotencyRepository (SQLite WAL)"]
     end
 
-    subgraph RECOVERY ["9. FAILURE RECOVERY ENGINE"]
-        REC["Stale Claim Recovery<br/>• Worker crash detection (>10s idle)<br/>• Message reclaim & backoff retry"]
+    subgraph RECOVERY["9. FAILURE RECOVERY ENGINE"]
+        REC["Stale Claim Recovery Manager"]
     end
 
-    subgraph OUTCOME ["10. OUTCOME & FEEDBACK"]
-        OUT["Execution Outcome Recorder<br/>• Completed, Deferred, Shed, & Reclaimed stats"]
+    subgraph OUTCOME["10. OUTCOME & FEEDBACK"]
+        OUT["Execution Outcome Recorder"]
     end
 
-    %% Top-to-Bottom Flow
     S1 --> ING
     S2 --> ING
     S3 --> ING
-    
+
     ING --> EQ
     EQ --> COAL
     COAL --> VE
@@ -196,35 +195,12 @@ flowchart TD
 
     IDEM --> OUT
 
-    %% Recovery Loop (Red/Orange)
-    W1 -.->|Worker Crash / Stale Claim| REC
-    W2 -.->|Worker Crash / Stale Claim| REC
-    W3 -.->|Worker Crash / Stale Claim| REC
-    REC ==>|Reclaim & Re-execute| SUP
+    W1 -.->|Worker Crash| REC
+    W2 -.->|Worker Crash| REC
+    W3 -.->|Worker Crash| REC
+    REC -->|Reclaim Task| SUP
 
-    %% Feedback Loop (Green)
-    OUT ==>|Outcome Feedback to Estimator| VE
-
-    %% Styling
-    classDef sourceStyle fill:#eff6ff,stroke:#2563eb,stroke-width:1px,color:#1e3a8a;
-    classDef ingestStyle fill:#f8fafc,stroke:#64748b,stroke-width:1px,color:#0f172a;
-    classDef queueStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1px,color:#14532d;
-    classDef valStyle fill:#faf5ff,stroke:#9333ea,stroke-width:1px,color:#581c87;
-    classDef admStyle fill:#eef2ff,stroke:#4f46e5,stroke-width:1px,color:#1e1b4b;
-    classDef execStyle fill:#fff7ed,stroke:#ea580c,stroke-width:1px,color:#7c2d12;
-    classDef idemStyle fill:#f0fdf4,stroke:#15803d,stroke-width:1px,color:#14532d;
-    classDef recStyle fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d;
-    classDef outStyle fill:#ecfdf5,stroke:#059669,stroke-width:1px,color:#064e3b;
-
-    class S1,S2,S3 sourceStyle;
-    class ING ingestStyle;
-    class EQ,COAL queueStyle;
-    class VE valStyle;
-    class AC,ADMIT_PATH,DEFER_PATH,SHED_PATH admStyle;
-    class SUP,W1,W2,W3 execStyle;
-    class IDEM idemStyle;
-    class REC recStyle;
-    class OUT outStyle;
+    OUT -->|Outcome Feedback| VE
 ```
 
 ---
