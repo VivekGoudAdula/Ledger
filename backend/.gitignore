@@ -1,0 +1,9 @@
+.env
+*.env
+__pycache__/
+*.py[cod]
+venv/
+.pytest_cache/
+*.db
+*.sqlite
+ledger.db
