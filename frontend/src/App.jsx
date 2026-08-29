@@ -1,82 +1,80 @@
 import React, { useState } from 'react';
 import { useDashboardSocket } from './hooks/useDashboardSocket';
-import { SystemHeader } from './components/SystemHeader';
-import { PipelineMap } from './components/PipelineMap';
-import { MetricCards } from './components/MetricCards';
-import { SourcePanel } from './components/SourcePanel';
-import { IngestionPanel } from './components/IngestionPanel';
-import { CoalescingPanel } from './components/CoalescingPanel';
-import { ValueEstimatorPanel } from './components/ValueEstimatorPanel';
-import { AdmissionPanel } from './components/AdmissionPanel';
-import { QueuePanel } from './components/QueuePanel';
-import { WorkerPanel } from './components/WorkerPanel';
-import { IdempotencyPanel } from './components/IdempotencyPanel';
-import { RecoveryPanel } from './components/RecoveryPanel';
-import { OutcomePanel } from './components/OutcomePanel';
-import { EventTrace } from './components/EventTrace';
-import { BenchmarkPanel } from './components/BenchmarkPanel';
-import { SystemHealthPanel } from './components/SystemHealthPanel';
+import { Sidebar } from './components/layout/Sidebar';
+import { TopHeader } from './components/layout/TopHeader';
+import { GlobalEventInspector } from './components/common/GlobalEventInspector';
+
+import { OverviewPage } from './pages/OverviewPage';
+import { SignalsPage } from './pages/SignalsPage';
+import { CoalescingPage } from './pages/CoalescingPage';
+import { ValuationPage } from './pages/ValuationPage';
+import { AdmissionPage } from './pages/AdmissionPage';
+import { QueuePage } from './pages/QueuePage';
+import { WorkersPage } from './pages/WorkersPage';
+import { IdempotencyPage } from './pages/IdempotencyPage';
+import { RecoveryPage } from './pages/RecoveryPage';
+import { OutcomesPage } from './pages/OutcomesPage';
+import { BenchmarkPage } from './pages/BenchmarkPage';
 
 export default function App() {
   const { data, connectionStatus } = useDashboardSocket();
-  const [selectedValuationEvent, setSelectedValuationEvent] = useState(null);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [inspectedEvent, setInspectedEvent] = useState(null);
+
+  function renderActivePage() {
+    switch (activeTab) {
+      case 'overview':
+        return <OverviewPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'signals':
+        return <SignalsPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'coalescing':
+        return <CoalescingPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'valuation':
+        return <ValuationPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'admission':
+        return <AdmissionPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'queue':
+        return <QueuePage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'workers':
+        return <WorkersPage data={data} />;
+      case 'idempotency':
+        return <IdempotencyPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'recovery':
+        return <RecoveryPage data={data} />;
+      case 'outcomes':
+        return <OutcomesPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+      case 'benchmark':
+        return <BenchmarkPage />;
+      default:
+        return <OverviewPage data={data} onSelectEvent={(e) => setInspectedEvent(e)} />;
+    }
+  }
 
   return (
-    <div className="dashboard-container">
-      <SystemHeader
+    <div className="app-shell">
+      <Sidebar
+        activeTab={activeTab}
+        onSelectTab={(tab) => setActiveTab(tab)}
         systemStatus={data?.system_status}
-        connectionStatus={connectionStatus}
-        totalIngress={data?.total_ingress_count}
-        ingressRate={data?.ingress_rate_sec}
       />
 
-      <PipelineMap />
-
-      <MetricCards data={data} />
-
-      {/* Row 1: Ingestion & Signal Intake Subsystems */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-        <SourcePanel sources={data?.sources} />
-        <IngestionPanel
-          ingressRate={data?.ingress_rate_sec}
+      <main className="main-content">
+        <TopHeader
+          systemStatus={data?.system_status}
+          connectionStatus={connectionStatus}
           totalIngress={data?.total_ingress_count}
-          recentEvents={data?.recent_events}
+          ingressRate={data?.ingress_rate_sec}
         />
-        <CoalescingPanel totalIngress={data?.total_ingress_count} />
-      </div>
 
-      {/* Row 2: Value Estimation & Admission Control */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        <ValueEstimatorPanel selectedEvent={selectedValuationEvent || (data?.recent_events && data.recent_events[0])} />
-        <AdmissionPanel data={data} />
-      </div>
+        {renderActivePage()}
+      </main>
 
-      {/* Row 3: Queue Broker & Worker Pool */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        <QueuePanel pendingCount={data?.queue_pending_count} />
-        <WorkerPanel workers={data?.workers} />
-      </div>
-
-      {/* Row 4: Idempotency & Failure Recovery */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        <IdempotencyPanel idempotency={data?.idempotency} />
-        <RecoveryPanel recovery={data?.recovery} />
-      </div>
-
-      {/* Row 5: Outcomes & System Health */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        <OutcomePanel data={data} />
-        <SystemHealthPanel systemStatus={data?.system_status} />
-      </div>
-
-      {/* Full Width: Live Trace Table with End-to-End Lifecycle Drawer */}
-      <EventTrace
-        events={data?.recent_events}
-        onSelectEventForValuation={(evt) => setSelectedValuationEvent(evt)}
-      />
-
-      {/* Full Width: FIFO vs LEDGER Benchmark */}
-      <BenchmarkPanel />
+      {inspectedEvent && (
+        <GlobalEventInspector
+          event={inspectedEvent}
+          onClose={() => setInspectedEvent(null)}
+        />
+      )}
     </div>
   );
 }
