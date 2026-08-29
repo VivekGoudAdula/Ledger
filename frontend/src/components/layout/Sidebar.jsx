@@ -36,8 +36,12 @@ export function Sidebar({ activeTab, onSelectTab, systemStatus }) {
         <div className="sidebar-brand">
           <img src="/logo.png" alt="Ledger Logo" className="sidebar-logo" />
           <div>
-            <div className="sidebar-title">LEDGER</div>
-            <div className="sidebar-subtitle">Control Plane</div>
+            <div className="sidebar-title" style={{ fontFamily: 'Times New Roman, serif', fontSize: '24px', fontWeight: 300, color: '#0c0a09', letterSpacing: '-0.02em' }}>
+              Ledger
+            </div>
+            <div className="sidebar-subtitle" style={{ fontSize: '11px', color: '#57534e', fontWeight: 500 }}>
+              Control Plane
+            </div>
           </div>
         </div>
 
@@ -63,9 +67,9 @@ export function Sidebar({ activeTab, onSelectTab, systemStatus }) {
         </nav>
       </div>
 
-      <div style={{ padding: '12px 10px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e7e5e4', fontSize: '11px' }}>
-        <div style={{ color: '#777169', fontWeight: 600 }}>System Telemetry</div>
-        <div style={{ color: '#0c0a09', fontWeight: 700, marginTop: '2px' }}>
+      <div style={{ padding: '14px 12px', background: '#f5f5f4', borderRadius: '12px', border: '1px solid #e7e5e4', fontSize: '12px' }}>
+        <div style={{ color: '#57534e', fontWeight: 500 }}>System Telemetry</div>
+        <div style={{ color: '#0c0a09', fontWeight: 700, marginTop: '2px', fontFamily: 'JetBrains Mono, monospace' }}>
           ● {systemStatus || 'HEALTHY'}
         </div>
       </div>

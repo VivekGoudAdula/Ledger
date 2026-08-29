@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Radio, PauseCircle, PlayCircle } from 'lucide-react';
 
-export function TopHeader({ systemStatus, connectionStatus, totalIngress, ingressRate }) {
+export function TopHeader({ systemStatus, connectionStatus }) {
   const [isPaused, setIsPaused] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -39,43 +39,32 @@ export function TopHeader({ systemStatus, connectionStatus, totalIngress, ingres
   return (
     <header className="top-header">
       <div>
-        <h1 style={{ fontSize: '18px', fontWeight: 800, color: '#0c0a09', letterSpacing: '-0.02em' }}>
-          LEDGER CONTROL PLANE
+        <h1 style={{ fontFamily: 'Times New Roman, serif', fontSize: '28px', fontWeight: 300, color: '#0c0a09', letterSpacing: '-0.02em' }}>
+          Ledger Control Plane
         </h1>
-        <p style={{ fontSize: '12px', color: '#777169' }}>
+        <p style={{ fontSize: '14px', color: '#4e4e4e' }}>
           Value-aware admission control for AI agent systems
         </p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         <button
           onClick={toggleIngestion}
           disabled={loading}
-          style={{
-            background: isPaused ? '#f0fdf4' : '#fffbeb',
-            color: isPaused ? '#166534' : '#b45309',
-            border: `1px solid ${isPaused ? '#bbf7d0' : '#fde68a'}`,
-            padding: '6px 14px',
-            borderRadius: '9999px',
-            fontSize: '12px',
-            fontWeight: 600,
-            cursor: loading ? 'wait' : 'pointer',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
+          className="button-outline"
+          style={{ fontSize: '13px', padding: '6px 16px' }}
         >
           {isPaused ? <PlayCircle size={14} color="#16a34a" /> : <PauseCircle size={14} color="#b45309" />}
           {isPaused ? 'Resume Ingestion' : 'Pause Ingestion'}
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 500, color: '#292524' }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: isPaused ? '#b45309' : '#16a34a' }} />
           <span>{isPaused ? 'INGESTION PAUSED' : systemStatus || 'SYSTEM HEALTHY'}</span>
         </div>
 
         <span className={`pill-badge ${connectionStatus === 'LIVE STREAM' || connectionStatus === 'CONNECTED' ? 'green' : 'amber'}`}>
-          <Radio size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+          <Radio size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
           {connectionStatus === 'LIVE STREAM' ? 'CONNECTED' : connectionStatus}
         </span>
       </div>
