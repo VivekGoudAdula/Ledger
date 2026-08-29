@@ -33,16 +33,8 @@ export function Sidebar({ activeTab, onSelectTab, systemStatus }) {
   return (
     <aside className="sidebar">
       <div>
-        <div className="sidebar-brand">
-          <img src="/logo.png" alt="Ledger Logo" className="sidebar-logo" />
-          <div>
-            <div className="sidebar-title" style={{ fontFamily: 'Times New Roman, serif', fontSize: '24px', fontWeight: 300, color: '#0c0a09', letterSpacing: '-0.02em' }}>
-              Ledger
-            </div>
-            <div className="sidebar-subtitle" style={{ fontSize: '11px', color: '#57534e', fontWeight: 500 }}>
-              Control Plane
-            </div>
-          </div>
+        <div className="sidebar-brand" style={{ justifyContent: 'center', padding: '12px 0 20px', margin: 0 }}>
+          <img src="/logo.png" alt="Ledger Logo" className="sidebar-logo" style={{ height: '54px', objectFit: 'contain' }} />
         </div>
 
         <nav className="sidebar-nav">
