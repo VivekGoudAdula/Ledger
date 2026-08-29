@@ -1,5 +1,4 @@
 import React from 'react';
-import { Cpu, Server } from 'lucide-react';
 
 export function WorkerPanel({ workers }) {
   const list = workers || [
@@ -15,7 +14,7 @@ export function WorkerPanel({ workers }) {
         <span className="pill-badge green">Supervisor Active</span>
       </div>
 
-      <div className="worker-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+      <div className="worker-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
         {list.map((w) => {
           const isRunning = w.state === 'RUNNING' || w.state === 'ONLINE';
           const isFailed = w.state === 'FAILED';
@@ -26,27 +25,29 @@ export function WorkerPanel({ workers }) {
               className="worker-card"
               key={w.worker_id}
               style={{
-                border: isFailed ? '1px solid #fecaca' : '1px solid #e2e8f0',
-                background: isFailed ? '#fef2f2' : '#f8fafc',
-                padding: '10px',
-                borderRadius: '6px',
+                border: isFailed ? '1px solid #fecaca' : '1px solid #e7e5e4',
+                background: isFailed ? '#fef2f2' : '#f5f5f4',
+                padding: '12px',
+                borderRadius: '8px',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className="worker-name" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '13px' }}>{w.worker_id}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span className="worker-name" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '13px', fontWeight: 700, color: '#0c0a09' }}>
+                  {w.worker_id}
+                </span>
                 <span className={`pill-badge ${badgeClass}`}>● {w.state}</span>
               </div>
 
-              <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px' }}>
-                Jobs completed: <strong style={{ color: '#0f172a' }}>{w.tasks_completed ?? 0}</strong>
+              <div style={{ fontSize: '12px', color: '#57534e', marginTop: '4px' }}>
+                Jobs completed: <strong style={{ color: '#0c0a09', fontFamily: 'JetBrains Mono, monospace', marginLeft: '4px' }}>{w.tasks_completed ?? 0}</strong>
               </div>
               {w.tasks_failed > 0 && (
-                <div style={{ fontSize: '11px', color: '#dc2626' }}>
+                <div style={{ fontSize: '12px', color: '#dc2626', marginTop: '2px' }}>
                   Jobs failed: <strong>{w.tasks_failed}</strong>
                 </div>
               )}
-              <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                Task: {w.current_task || 'Idle awaiting messages'}
+              <div style={{ fontSize: '11px', color: '#78716c', marginTop: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                Task: {w.current_task || 'Processing admitted signals'}
               </div>
             </div>
           );

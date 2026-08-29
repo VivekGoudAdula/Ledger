@@ -29,13 +29,13 @@ export function PipelineMap() {
 
   return (
     <section className="pipeline-section">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <span style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          End-to-End Control Pipeline (Click any stage to jump to subsystem panel)
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <span style={{ fontSize: '11px', fontWeight: 700, color: '#57534e', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          END-TO-END CONTROL PIPELINE
         </span>
       </div>
 
-      <div className="pipeline-flow" style={{ flexWrap: 'wrap', gap: '4px' }}>
+      <div className="pipeline-flow">
         {stages.map((st, idx) => {
           const isSelected = activeStage === st.name;
           return (
@@ -43,22 +43,22 @@ export function PipelineMap() {
               <div
                 className={`pipeline-stage ${isSelected ? 'active' : ''}`}
                 onClick={() => handleStageClick(st)}
-                style={{ cursor: 'pointer', userSelect: 'none', fontSize: '11px', padding: '5px 10px' }}
+                style={{ cursor: 'pointer', userSelect: 'none' }}
                 title={`Jump to ${st.name} subsystem`}
               >
                 {st.name}
               </div>
-              {idx < stages.length - 1 && <span className="arrow" style={{ fontSize: '10px' }}>→</span>}
+              {idx < stages.length - 1 && <span className="arrow">→</span>}
             </React.Fragment>
           );
         })}
       </div>
 
-      <div style={{ marginTop: '8px', padding: '8px 12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: '#0f172a', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Zap size={13} color="#2563eb" /> Active Subsystem Inspector: <strong>{currentInfo.name}</strong> ({currentInfo.tech})
+      <div style={{ marginTop: '12px', padding: '10px 14px', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ color: '#0c0a09', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Zap size={14} color="#2563eb" /> Active Subsystem Inspector: <strong>{currentInfo.name}</strong> ({currentInfo.tech})
         </span>
-        <span style={{ fontSize: '10px', background: '#dbeafe', color: '#1e40af', padding: '2px 8px', borderRadius: '4px', fontWeight: 600 }}>
+        <span className="pill-badge green" style={{ fontSize: '11px' }}>
           {currentInfo.status}
         </span>
       </div>

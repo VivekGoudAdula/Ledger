@@ -16,16 +16,16 @@ export function SourcePanel({ sources }) {
 
       <div className="metric-list">
         {list.map((s, idx) => (
-          <div key={idx} style={{ padding: '8px 0', borderBottom: idx < list.length - 1 ? '1px dashed #e2e8f0' : 'none' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <span style={{ fontWeight: 600, fontSize: '13px', color: '#0f172a' }}>{s.name}</span>
+          <div key={idx} style={{ padding: '10px 0', borderBottom: idx < list.length - 1 ? '1px dashed #e7e5e4' : 'none' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <span style={{ fontWeight: 700, fontSize: '13px', color: '#0c0a09' }}>{s.name}</span>
               <span className={`pill-badge ${s.status === 'UP' ? 'green' : 'red'}`}>
                 ● {s.status}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#64748b', fontFamily: 'JetBrains Mono, monospace' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#57534e' }}>
               <span>Last poll: {s.last_poll_time || 'Just now'}</span>
-              <span>Events: <strong>{s.events_received ?? 0}</strong></span>
+              <span>Events: <strong style={{ color: '#0c0a09', fontFamily: 'JetBrains Mono, monospace', marginLeft: '4px' }}>{s.events_received ?? 0}</strong></span>
             </div>
           </div>
         ))}

@@ -25,9 +25,9 @@ export function SystemHealthPanel({ systemStatus }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
         {subsystems.map((sub, idx) => (
-          <div key={idx} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '8px 10px', borderRadius: '4px', fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontWeight: 600, color: '#334155' }}>{sub.name}</span>
-            <span className={`pill-badge ${sub.status === 'HEALTHY' ? 'green' : 'amber'}`} style={{ fontSize: '10px' }}>
+          <div key={idx} style={{ background: '#f5f5f4', border: '1px solid #e7e5e4', padding: '10px 12px', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 600, color: '#0c0a09' }}>{sub.name}</span>
+            <span className={`pill-badge ${sub.status === 'HEALTHY' ? 'green' : 'amber'}`} style={{ fontSize: '11px' }}>
               ● {sub.status}
             </span>
           </div>
