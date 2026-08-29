@@ -145,7 +145,7 @@ class DashboardService:
                             consequence_of_drop=round(orm.consequence_score or (0.85 if dec == "ADMIT" else 0.20), 2),
                             admission_reason=orm.admission_reason or ("High consequence work admitted" if dec == "ADMIT" else "Low value dropped under pressure"),
                             decision=dec,
-                            status=status_disp,
+                            status=orm.status,  # Show actual DB status: QUEUED, PROCESSING, COMPLETED, DEFERRED, SHED, FAILED
                         )
                     )
         except Exception as err:
