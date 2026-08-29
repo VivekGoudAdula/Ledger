@@ -132,11 +132,18 @@ class DashboardService:
 
                     recent_events.append(
                         EventTraceDTO(
+                            event_id=orm.event_id,
+                            tenant_id=orm.tenant_id or "tenant_default",
+                            worker_id=f"worker-{(hash(orm.event_id) % 3) + 1}",
                             time_str=time_str,
                             source=orm.source_type,
                             event_type=orm.event_type,
-                            expected_value=0.85 if dec == "ADMIT" else 0.20,
-                            compute_cost=0.25,
+                            expected_value=round(orm.admission_score or (0.85 if dec == "ADMIT" else 0.20), 2),
+                            compute_cost=round(orm.estimated_compute_cost or 0.25, 2),
+                            urgency=round(orm.urgency_score or 0.80, 2),
+                            confidence=round(orm.confidence_score or 0.90, 2),
+                            consequence_of_drop=round(orm.consequence_score or (0.85 if dec == "ADMIT" else 0.20), 2),
+                            admission_reason=orm.admission_reason or ("High consequence work admitted" if dec == "ADMIT" else "Low value dropped under pressure"),
                             decision=dec,
                             status=status_disp,
                         )

@@ -56,11 +56,18 @@ class SourceHealthDTO(BaseModel):
 class EventTraceDTO(BaseModel):
     """Recent event trace row for dashboard table presentation."""
 
+    event_id: str | None = None
     time_str: str
     source: str
     event_type: str
+    tenant_id: str = "tenant_default"
+    worker_id: str = "worker-1"
     expected_value: float | None = None
     compute_cost: float | None = None
+    urgency: float | None = None
+    confidence: float | None = None
+    consequence_of_drop: float | None = None
+    admission_reason: str | None = None
     decision: str = "ADMIT"
     status: str = "QUEUED"
 
@@ -69,6 +76,7 @@ class DashboardSummaryDTO(BaseModel):
     """Complete authoritative live dashboard state snapshot DTO."""
 
     system_status: str = "HEALTHY"
+    uptime_seconds: float = 0.0
     ingress_rate_sec: float = 0.0
     processing_capacity_sec: float = 100.0
     total_ingress_count: int = 0
