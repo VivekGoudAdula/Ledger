@@ -18,9 +18,11 @@ htmlcov/
 
 # Databases & SQLite
 *.db
+*.db-wal
+*.db-shm
 *.sqlite
 *.sqlite3
-ledger.db
+ledger.db*
 
 # Node / React
 node_modules/
