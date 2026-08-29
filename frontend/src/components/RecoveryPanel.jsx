@@ -24,7 +24,7 @@ export function RecoveryPanel({ recovery }) {
           <strong>{rec.pending_count ?? 0}</strong>
         </div>
         <div className="metric-row">
-          <span>Stale Candidates (&gt;10s Idle)</span>
+          <span>Stale Candidates (Over 10s Idle)</span>
           <strong>{rec.stale_count ?? 0}</strong>
         </div>
         <div className="metric-row">

@@ -10,7 +10,7 @@ export function RecoveryPage({ data }) {
       <div className="page-header">
         <div>
           <h2 className="page-title">Failure Recovery & Reclaim Engine</h2>
-          <p className="page-description">Automatic detection of crashed workers (&gt;10s idle threshold), message reclaim, and backoff retry</p>
+          <p className="page-description">Automatic detection of crashed workers (over 10s idle threshold), message reclaim, and backoff retry</p>
         </div>
         <span className="pill-badge green">Stale Claim Manager</span>
       </div>
@@ -33,7 +33,7 @@ export function RecoveryPage({ data }) {
               <span>→</span>
               <span className="pill-badge amber">UNACKNOWLEDGED PENDING</span>
               <span>→</span>
-              <span className="pill-badge amber">STALE (&gt;10s IDLE)</span>
+              <span className="pill-badge amber">STALE (OVER 10s IDLE)</span>
               <span>→</span>
               <span className="pill-badge green">RECLAIMED & REASSIGNED</span>
               <span>→</span>
