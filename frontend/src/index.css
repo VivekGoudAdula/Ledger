@@ -1,20 +1,23 @@
-/* LEDGER Enterprise Light Theme CSS Design System */
+/* LEDGER Enterprise Operations Control Unit — ElevenLabs Design System */
 :root {
-  --bg-color: #f8fafc;
+  --bg-color: #f5f5f5;
   --panel-bg: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
+  --text-main: #0c0a09;
+  --text-muted: #777169;
+  --border-color: #e7e5e4;
+  --border-strong: #d6d3d1;
   --primary-blue: #2563eb;
   --primary-blue-light: #eff6ff;
   --success-green: #16a34a;
   --success-green-light: #f0fdf4;
-  --warning-amber: #d97706;
+  --warning-amber: #b45309;
   --warning-amber-light: #fffbeb;
   --danger-red: #dc2626;
   --danger-red-light: #fef2f2;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --radius-card: 12px;
+  --radius-pill: 9999px;
 }
 
 * {
@@ -40,16 +43,16 @@ body {
   gap: 20px;
 }
 
-/* Header */
+/* Header with ElevenLabs Atmospheric Gradient Orb */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--panel-bg);
+  background: radial-gradient(circle at 10% 20%, rgba(167, 229, 211, 0.25), rgba(168, 200, 232, 0.2), transparent 70%), var(--panel-bg);
   padding: 20px 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border-color);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
 }
 
 .brand-title {
@@ -203,9 +206,16 @@ body {
 /* Panels */
 .panel {
   background: var(--panel-bg);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border-color);
   padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.panel:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  border-color: var(--border-strong);
 }
 
 .panel-header {
@@ -226,9 +236,9 @@ body {
 .pill-badge {
   font-size: 11px;
   font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: #f0efed;
   color: var(--text-muted);
 }
 
