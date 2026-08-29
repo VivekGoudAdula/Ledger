@@ -339,6 +339,43 @@ async def get_event_lifecycle(
     )
     valuation = (await session.execute(val_stmt)).scalar_one_or_none()
 
+    # Dynamic fallback: If no valuation record exists in DB for this event, assess and persist it on the fly
+    if not valuation:
+        try:
+            from app.storage.repositories import ValuationRepository
+            from app.valuation.rule_estimator import RuleBasedValueEstimator
+            from app.valuation.service import ValueEstimationService
+            from app.admission.controller import AdmissionController
+            from app.domain.models import CapacityState, TenantState
+
+            val_repo = ValuationRepository(session)
+            val_service = ValueEstimationService(repository=val_repo, mode="rule_based")
+            domain_evt = event_repo._to_domain(orm)
+            assessment = await val_service.assess_work_item(domain_evt)
+
+            adm_controller = AdmissionController()
+            capacity = CapacityState(total_capacity=100.0, available_capacity=100.0)
+            tenant = TenantState(tenant_id=orm.tenant_id or "default")
+            decision = adm_controller.evaluate_admission(domain_evt, assessment, capacity, tenant)
+
+            await event_repo.update_admission_scores(
+                event_id=orm.event_id,
+                urgency=assessment.urgency,
+                confidence=assessment.confidence,
+                consequence=assessment.consequence_of_drop,
+                compute_cost=assessment.estimated_compute_cost,
+                admission_score=assessment.expected_value,
+                admission_decision=decision.decision.value,
+                admission_reason=decision.reason.value,
+            )
+            await session.commit()
+
+            # Refresh ORM and valuation record after persistence
+            orm = (await session.execute(evt_stmt)).scalar_one_or_none() or orm
+            valuation = (await session.execute(val_stmt)).scalar_one_or_none()
+        except Exception:
+            pass
+
     # Load latest execution checkpoint
     cp_stmt = (
         select(ExecutionCheckpointORM)
@@ -414,12 +451,14 @@ async def get_event_lifecycle(
             timestamp=_fmt(_ensure_tz(valuation.estimated_at)),
             detail=f"EV={valuation.expected_value:.3f} | Cost={valuation.estimated_compute_cost:.3f} | VPC={valuation.value_per_compute:.3f} | {valuation.estimator}",
         ))
-    elif orm.admission_score:
+    elif orm.admission_score is not None:
+        cost_val = orm.estimated_compute_cost or 0.25
+        vpc_val = round((orm.admission_score or 0.0) / max(cost_val, 0.01), 3)
         steps.append(LifecycleStepDTO(
             step="VALUE_ESTIMATED",
             status="DONE",
             timestamp=_fmt(created),
-            detail=f"EV={orm.admission_score:.3f} (from admission record) | Cost={orm.estimated_compute_cost or 0.25:.3f}",
+            detail=f"EV={orm.admission_score:.3f} | Cost={cost_val:.3f} | VPC={vpc_val:.3f}",
         ))
     else:
         steps.append(LifecycleStepDTO(
@@ -480,10 +519,11 @@ async def get_event_lifecycle(
             detail=f"Key claimed | Status: {idem_status} | {'DUPLICATE PREVENTED' if is_hit else 'First execution — ownership granted'}",
         ))
     else:
+        is_active = orm.status in ("QUEUED", "PROCESSING")
         steps.append(LifecycleStepDTO(
             step="IDEMPOTENCY_CHECK",
-            status="SKIPPED",
-            detail="No idempotency record — event not yet processed by worker",
+            status="PENDING" if is_active else "SKIPPED",
+            detail="Awaiting worker execution to claim idempotency lock" if is_active else "No idempotency record — event was not processed by worker",
         ))
 
     # Step 9: OUTCOME
@@ -521,6 +561,10 @@ async def get_event_lifecycle(
             duration = round((completed_at - started_at).total_seconds(), 3)
         error = exec_result.error_category
 
+    base_val = valuation.expected_value if valuation else (orm.admission_score or 0.0)
+    cost_val = valuation.estimated_compute_cost if valuation else (orm.estimated_compute_cost or 0.25)
+    vpc_val = valuation.value_per_compute if valuation else round(base_val / max(cost_val, 0.01), 4)
+
     return EventLifecycleDTO(
         event_id=orm.event_id,
         tenant_id=orm.tenant_id or "default",
@@ -529,14 +573,14 @@ async def get_event_lifecycle(
         severity=orm.severity,
         current_status=orm.status,
         lifecycle_steps=steps,
-        base_value=orm.admission_score,
-        compute_cost=orm.estimated_compute_cost,
-        value_per_compute=round((orm.admission_score or 0.0) / max(orm.estimated_compute_cost or 0.25, 0.01), 4),
-        urgency=orm.urgency_score,
-        confidence=orm.confidence_score,
-        consequence_of_drop=orm.consequence_score,
-        admission_decision=orm.admission_decision,
-        admission_reason=orm.admission_reason,
+        base_value=round(base_val, 4),
+        compute_cost=round(cost_val, 4),
+        value_per_compute=round(vpc_val, 4),
+        urgency=valuation.urgency if valuation else (orm.urgency_score or 0.5),
+        confidence=valuation.confidence if valuation else (orm.confidence_score or 1.0),
+        consequence_of_drop=valuation.consequence_of_drop if valuation else (orm.consequence_score or 0.5),
+        admission_decision=orm.admission_decision or ("ADMIT" if orm.status not in ("DEFERRED", "SHED") else orm.status),
+        admission_reason=orm.admission_reason or "N/A",
         coalesced_into_id=orm.coalesced_into_id or (link.incident_id if link else None),
         coalesced_count=orm.coalesced_count,
         worker_id=checkpoint.worker_id if checkpoint else None,

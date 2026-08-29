@@ -9,6 +9,7 @@ from app.api.routes import (
     dashboard_router,
     ws_dashboard_router,
     benchmark_router,
+    admin_router,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "dashboard_router",
     "ws_dashboard_router",
     "benchmark_router",
+    "admin_router",
 ]

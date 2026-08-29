@@ -28,6 +28,8 @@ from app.domain.interfaces import (
 )
 from app.worker.retry_policy import RetryPolicy
 from app.worker.handler import DeterministicExecutionHandler
+from app.fault_injection.models import FailureMode, WorkerFaultInjectionError
+from app.fault_injection.service import FaultInjectionService
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +49,7 @@ class LedgerWorker:
         max_concurrency: int = 4,
         timeout_seconds: float = 30.0,
         action_type: str = "ANALYZE_SIGNAL",
+        fault_injector: FaultInjectionService | None = None,
     ) -> None:
         self.worker_id = worker_id
         self._broker = broker
@@ -58,6 +61,7 @@ class LedgerWorker:
         self._semaphore = asyncio.Semaphore(max_concurrency)
         self._timeout_seconds = timeout_seconds
         self.action_type = action_type
+        self._fault_injector = fault_injector
 
         self._running = False
         self._tasks_completed = 0
@@ -92,6 +96,16 @@ class LedgerWorker:
                 self._tasks_failed += 1
                 self._current_task = None
                 return False
+
+            # Fault Injection Checkpoint 1: BEFORE_EXECUTION
+            if self._fault_injector:
+                try:
+                    await self._fault_injector.check_and_trigger_fault(self.worker_id, FailureMode.BEFORE_EXECUTION)
+                except WorkerFaultInjectionError as fault_err:
+                    logger.warning("Worker [%s] FAULT INJECTED BEFORE EXECUTION on msg '%s'", self.worker_id, msg.work_item_id)
+                    self._tasks_failed += 1
+                    self._current_task = None
+                    return False
 
             # 2. Database-Enforced Idempotency Atomic Ownership Claim
             idempotency_key = generate_idempotency_key(msg.tenant_id, msg.work_item_id, self.action_type)
@@ -145,6 +159,16 @@ class LedgerWorker:
             )
             await self._execution_repo.save_checkpoint(checkpoint)
 
+            # Fault Injection Checkpoint 2: DURING_EXECUTION
+            if self._fault_injector:
+                try:
+                    await self._fault_injector.check_and_trigger_fault(self.worker_id, FailureMode.DURING_EXECUTION)
+                except WorkerFaultInjectionError as fault_err:
+                    logger.warning("Worker [%s] FAULT INJECTED DURING EXECUTION on task '%s'", self.worker_id, msg.work_item_id)
+                    self._tasks_failed += 1
+                    self._current_task = None
+                    return False
+
             # 6. Task Execution with Timeout & Exception Handling
             try:
                 output = await asyncio.wait_for(
@@ -168,6 +192,16 @@ class LedgerWorker:
 
                 if self._idempotency_repo:
                     await self._idempotency_repo.mark_completed(idempotency_key, checkpoint.execution_id, output)
+
+                # Fault Injection Checkpoint 3: AFTER_EXECUTION_BEFORE_ACK
+                if self._fault_injector:
+                    try:
+                        await self._fault_injector.check_and_trigger_fault(self.worker_id, FailureMode.AFTER_EXECUTION_BEFORE_ACK)
+                    except WorkerFaultInjectionError as fault_err:
+                        logger.warning("Worker [%s] FAULT INJECTED AFTER EXECUTION BEFORE ACK on task '%s' — NO XACK SENT", self.worker_id, msg.work_item_id)
+                        self._tasks_failed += 1
+                        self._current_task = None
+                        return False
 
                 # 8. ACK ONLY AFTER SUCCESSFUL DURABLE RESULT PERSISTENCE!
                 if msg.transport_id:
@@ -210,6 +244,9 @@ class LedgerWorker:
 
     async def run_once(self) -> int:
         """Run single consumer poll loop iteration. Returns count of processed messages."""
+        if self._fault_injector and await self._fault_injector.is_paused_or_failed(self.worker_id):
+            return 0
+
         messages = await self._broker.consume(consumer_name=self.worker_id, count=1)
         if not messages:
             return 0

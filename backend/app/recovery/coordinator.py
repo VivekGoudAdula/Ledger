@@ -4,6 +4,7 @@ Scans stale unacknowledged transport entries, reclaims ownership, reconciles DB 
 and routes reclaimed messages through the standard LedgerWorker execution pipeline.
 """
 
+from typing import Any
 import logging
 from datetime import datetime, timezone
 
@@ -25,11 +26,24 @@ class RecoveryCoordinator:
         worker: LedgerWorker,
         idempotency_repo: IdempotencyRepositoryInterface | None = None,
         execution_repo: ExecutionRepositoryInterface | None = None,
+        worker_pool: Any | None = None,
     ) -> None:
         self._broker = broker
         self._worker = worker
         self._idempotency_repo = idempotency_repo
         self._execution_repo = execution_repo
+        self._worker_pool = worker_pool
+
+    async def _get_healthy_worker(self) -> LedgerWorker:
+        """Find a healthy non-failed worker instance from pool or default worker."""
+        if self._worker_pool and hasattr(self._worker_pool, "workers"):
+            for w in self._worker_pool.workers:
+                if w._fault_injector:
+                    if not await w._fault_injector.is_paused_or_failed(w.worker_id):
+                        return w
+                else:
+                    return w
+        return self._worker
 
     async def run_recovery_scan(
         self,
@@ -63,9 +77,10 @@ class RecoveryCoordinator:
         outcome.stale_candidates_count = len(reclaimed_msgs)
         outcome.reclaimed_count = len(reclaimed_msgs)
 
-        # 3. Route reclaimed messages through worker processing pipeline
+        # 3. Route reclaimed messages through a healthy worker processing pipeline
+        target_worker = await self._get_healthy_worker()
         for msg in reclaimed_msgs:
-            key = generate_idempotency_key(msg.tenant_id, msg.work_item_id, self._worker.action_type)
+            key = generate_idempotency_key(msg.tenant_id, msg.work_item_id, target_worker.action_type)
 
             # Pre-check DB idempotency state for outcome classification
             if self._idempotency_repo:
@@ -80,8 +95,8 @@ class RecoveryCoordinator:
                 if latest_checkpoint:
                     attempt = latest_checkpoint.attempt_number + 1
 
-            # Re-enter worker execution pipeline (idempotency, result persistence, ACK)
-            success = await self._worker.process_message(msg, attempt=attempt)
+            # Re-enter healthy worker execution pipeline (idempotency, result persistence, ACK)
+            success = await target_worker.process_message(msg, attempt=attempt)
             if success:
                 outcome.retried_count += 1
             else:

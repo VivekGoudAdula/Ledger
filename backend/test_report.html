@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ledger Test Suite Execution Report - 137/137 Passed</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 30px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        h1 { margin: 0 0 10px 0; color: #38bdf8; font-size: 24px; }
+        .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .stat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-val { font-size: 28px; font-weight: 800; color: #4ade80; }
+        .stat-lbl { font-size: 12px; color: #94a3b8; text-transform: uppercase; margin-top: 4px; font-weight: 600; }
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .filter-btn.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+        th {
+            background: #0f172a;
+            color: #38bdf8;
+            font-size: 12px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+        }
+        td {
+            padding: 10px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid #334155;
+            color: #e2e8f0;
+        }
+        tr:nth-child(even) { background: #162032; }
+        tr:hover { background: #26334d; }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .badge-pass { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+        .badge-unit { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .badge-integ { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+        .badge-rel { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .nav-link { color: #38bdf8; text-decoration: none; font-weight: 600; float: right; font-size: 13px; }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="nav-link">← Back to Code Coverage HTML</a>
+        <h1>Ledger Test Suite Execution Report</h1>
+        <div class="subtitle">Comprehensive test results for all 137 test cases</div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val">137</div>
+                <div class="stat-lbl">Total Executed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" style="color: #4ade80;">137</div>
+                <div class="stat-lbl">Passed (100%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" style="color: #f87171;">0</div>
+                <div class="stat-lbl">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" style="color: #38bdf8;">80%</div>
+                <div class="stat-lbl">Statement Coverage</div>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Category</th>
+                <th>Test File</th>
+                <th>Test Case Function Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="color: #64748b;">1</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_admission_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_admission_api_evaluate_endpoint</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">2</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_benchmark_runner.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_benchmark_runner_sustained_overload</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">3</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_benchmark_runner.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_benchmark_runner_all_scenarios</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">4</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_coalescing_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_signal_ingestion_triggers_coalescing_and_links</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">5</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_coalescing_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_get_incident_and_linked_signals</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">6</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_dashboard_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_get_dashboard_summary_endpoint</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">7</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_dashboard_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_websocket_dashboard_stream</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">8</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_dashboard_real_data.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_dashboard_service_reflects_real_queue_and_worker_state</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">9</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_dynamic_arrival_scheduling.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_dynamic_arrival_prioritizes_high_value_over_arrival_order</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">10</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_fault_injection_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_api_disabled_by_default</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">11</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_fault_injection_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_api_enabled_workflow</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">12</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_fault_injection_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_api_unknown_worker_returns_404</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">13</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_fault_injection_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_api_invalid_failure_mode_returns_422</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">14</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_hero_recovery.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_hero_failure_recovery_case_c</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">15</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_idempotency_crash_window.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_action_before_ack_crash_window_prevents_duplicate_side_effect</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">16</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_idempotency_db.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_db_composite_unique_constraint_enforced</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">17</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_idempotency_db.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_multi_tenant_idempotency_namespace_isolation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">18</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_ingest_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_health_check_endpoint</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">19</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_ingest_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_post_signals_success</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">20</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_ingest_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_post_signals_duplicate_detection</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">21</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_ingest_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_post_signals_malformed_json_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">22</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_multiphase_e2e.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_e2e_normal_and_duplicate_delivery</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">23</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_multiphase_e2e.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_e2e_failure_after_action_before_ack</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">24</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_multiphase_e2e.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_e2e_source_failure_isolation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">25</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_overload_admission.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_overload_admission_protection</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">26</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_pipeline_e2e.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_full_pipeline_e2e_deterministic_execution</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">27</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_queue_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_queue_api_publish_and_metrics_endpoints</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">28</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_recovery_cases.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_recovery_case_a_crash_before_processing</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">29</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_valuation_api.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valuation_api_post_assess_and_get</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">30</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_worker_crash_recovery.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_crash_and_stale_message_recovery</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">31</td>
+                <td><span class="badge badge-integ">Integration</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/integration/test_worker_integration.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_end_to_end_worker_execution_pipeline</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">32</td>
+                <td><span class="badge badge-rel">Reliability</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/reliability/test_concurrent_coalescing.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_concurrent_coalescing_safety</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">33</td>
+                <td><span class="badge badge-rel">Reliability</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/reliability/test_concurrent_idempotency.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_concurrent_idempotency_race_protection</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">34</td>
+                <td><span class="badge badge-rel">Reliability</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/reliability/test_concurrent_worker_claims.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_concurrent_worker_claim_race_safety</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">35</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_controller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_admission_controller_type_validation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">36</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_capacity_state_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">37</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_negative_or_non_finite_capacity_rejected[-10.0]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">38</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_negative_or_non_finite_capacity_rejected[nan]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">39</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_negative_or_non_finite_capacity_rejected[inf]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">40</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_available_capacity_exceeding_total_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">41</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_tenant_state_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">42</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_naive_evaluated_at_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">43</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_invariants.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_admission_invariant_admitted_compute_bounded_by_capacity</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">44</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_invariants.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_admission_invariant_decision_exclusivity</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">45</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_capacity_available_admits_work</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">46</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_insufficient_capacity_defers_work</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">47</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_expired_deadline_sheds_work</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">48</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_tenant_quota_exceeded_defers_work</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">49</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_admission_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_starvation_prevention_aging</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">50</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_ai_estimator.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_llm_estimator_valid_response</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">51</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_ai_estimator.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_llm_estimator_malformed_json_raises_error</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">52</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_metrics.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_percentile_calculation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">53</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_metrics.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_comparison_delta_calculation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">54</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_policies.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fifo_policy_capacity_admission</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">55</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_policies.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_ledger_policy_adapter_evaluation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">56</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_workload.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_seed_reproducibility</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">57</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_benchmark_workload.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_different_seeds_produce_different_workloads</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">58</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_coalescing_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_signals_within_window_coalesce</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">59</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_coalescing_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_signals_outside_window_create_new_incident</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">60</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_dashboard_schemas.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_dashboard_summary_dto_construction</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">61</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_signal_event_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">62</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_empty_event_id_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">63</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_empty_tenant_id_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">64</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_naive_timestamp_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">65</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_naive_deadline_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">66</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_domain_signal.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_severity_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">67</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_execution_handler.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_execution_handler_signal_event</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">68</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_execution_handler.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_execution_handler_coalesced_incident</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">69</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fault_injection.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_service_pause_and_resume</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">70</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fault_injection.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fault_injection_service_inject_and_trigger_one_shot</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">71</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fault_injection.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_before_execution_fault_leaves_message_unacked</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">72</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fault_injection.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_during_execution_fault_persists_checkpoint_unacked</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">73</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fault_injection.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_after_execution_before_ack_idempotency_protection</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">74</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fingerprint.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fingerprint_case_insensitivity</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">75</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fingerprint.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fingerprint_resource_isolation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">76</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_fingerprint.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_fingerprint_tenant_isolation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">77</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_client.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_client_rate_limit_exception</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">78</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_client.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_client_timeout_exception</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">79</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_client.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_client_http_500_exception</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">80</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_client.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_client_malformed_json</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">81</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_poller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_adapter_issue_event_normalization</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">82</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_github_poller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_client_rate_limit_exception</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">83</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_generate_idempotency_key_valid</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">84</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_generate_key_invalid_tenant_rejected[]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">85</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_generate_key_invalid_tenant_rejected[None]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">86</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_generate_key_invalid_tenant_rejected[123]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">87</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_idempotency_record_construction</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">88</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_idempotency_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_idempotency_service_claim_and_complete</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">89</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_memory_broker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_memory_broker_publish_admit_success</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">90</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_memory_broker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_memory_broker_publish_defer_or_shed_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">91</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_memory_broker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_memory_broker_consume_ack_lifecycle</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">92</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_normalizer.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_normalizer_routes_to_github</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">93</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_normalizer.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_normalizer_fallback_generic</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">94</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_contract.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_queue_message_serialization</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">95</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_contract.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_schema_version_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">96</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_contract.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_naive_timestamp_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">97</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_publisher_service_admit_enqueues</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">98</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_publisher_service_defer_does_not_enqueue</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">99</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_queue_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_publisher_service_shed_does_not_enqueue</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">100</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_recovery_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_recovery_outcome_construction</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">101</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_retry_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_retry_policy_error_classification</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">102</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_retry_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_retry_policy_should_retry</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">103</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_retry_policy.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_retry_policy_exponential_backoff_calculation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">104</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_rule_estimator.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_rule_based_estimator_severity_mapping</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">105</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_rule_estimator.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_rule_based_estimator_keyword_consequence</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">106</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_rule_estimator.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_rule_based_estimator_coalesced_incident_scaling</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">107</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_security_payloads.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_adapter_strips_authorization_headers</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">108</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_security_payloads.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_normalizer_handles_large_nested_payloads</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">109</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_source_adapters.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_adapter_can_handle_headers</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">110</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_source_adapters.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_github_adapter_parse_issue</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">111</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_source_adapters.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_incident_adapter_parse_alert</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">112</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_stale_claim_broker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_stale_claim_idle_threshold_filtering</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">113</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_status_feed_poller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_status_adapter_incident_normalization</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">114</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_status_feed_poller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_status_client_malformed_json_exception</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">115</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_telemetry_poller.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_telemetry_adapter_threshold_and_cooldown</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">116</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_value_assessment_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">117</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_out_of_bound_scores_rejected[-0.1]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">118</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_out_of_bound_scores_rejected[1.1]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">119</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_out_of_bound_scores_rejected[nan]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">120</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_out_of_bound_scores_rejected[inf]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">121</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_compute_cost_rejected[0.0]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">122</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_compute_cost_rejected[-1.0]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">123</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_compute_cost_rejected[nan]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">124</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_compute_cost_rejected[inf]</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">125</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_naive_timestamp_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">126</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_expected_value_formula_calculation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">127</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_expired_deadline_produces_zero_expected_value</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">128</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_value_per_compute_calculation</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">129</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valuation_service_rule_based_mode</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">130</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_valuation_service.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valuation_service_ai_failure_triggers_fallback</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">131</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_process_valid_message_success</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">132</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_idempotency_skip_completed</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">133</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_execution_checkpoint_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">134</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_attempt_number_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">135</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_valid_execution_result_accepted</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">136</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker_domain.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_invalid_execution_status_rejected</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+            <tr>
+                <td style="color: #64748b;">137</td>
+                <td><span class="badge badge-unit">Unit</span></td>
+                <td style="font-family: monospace; color: #cbd5e1;">tests/unit/test_worker_pool.py</td>
+                <td style="font-family: monospace; color: #f8fafc; font-weight: 600;">test_worker_pool_multi_worker_execution</td>
+                <td><span class="badge badge-pass">✓ PASSED</span></td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

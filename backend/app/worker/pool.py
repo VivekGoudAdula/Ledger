@@ -26,6 +26,13 @@ class WorkerPool:
         """Return worker instances."""
         return self._workers
 
+    def get_worker_by_id(self, worker_id: str) -> LedgerWorker | None:
+        """Find a worker instance by worker_id."""
+        for w in self._workers:
+            if w.worker_id == worker_id:
+                return w
+        return None
+
     def get_pool_status(self) -> list[WorkerStatus]:
         """Retrieve telemetry status for all managed workers."""
         return [w.get_status() for w in self._workers]

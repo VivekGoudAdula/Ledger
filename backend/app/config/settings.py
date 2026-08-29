@@ -60,11 +60,12 @@ class Settings(BaseSettings):
     RETRY_BASE_DELAY_SECONDS: float = 1.0
     RETRY_MAX_DELAY_SECONDS: float = 10.0
 
-    # Phase 8: Failure Recovery Configuration
+    # Phase 8: Failure Recovery & Fault Injection Configuration
     RECOVERY_ENABLED: bool = True
     RECOVERY_INTERVAL_SECONDS: float = 5.0
     RECOVERY_BATCH_SIZE: int = 10
     PENDING_STALE_AFTER_SECONDS: float = 10.0
+    LEDGER_FAULT_INJECTION_ENABLED: bool = False
 
     # Admission Thresholds
     BASE_ADMISSION_THRESHOLD: float = 0.4

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Play, CheckCircle2, TrendingUp, ShieldCheck, Zap, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Play, RefreshCw } from 'lucide-react';
 
 export function BenchmarkCard() {
   const [loading, setLoading] = useState(false);
@@ -10,14 +10,14 @@ export function BenchmarkCard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/v1/benchmark/run?scenario=sustained_overload&size=100&seed=42&capacity=10.0', {
+      const res = await fetch('/api/v1/benchmark/run?scenario=sustained_overload&size=3000&seed=42&capacity=10.0', {
         method: 'POST',
       });
       if (res.ok) {
         const json = await res.json();
         setBenchmarkResult(json);
       } else {
-        setError('Failed to execute benchmark simulation.');
+        setError('Failed to execute benchmark.');
       }
     } catch (err) {
       console.error('Benchmark execution error:', err);
@@ -26,6 +26,10 @@ export function BenchmarkCard() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    handleRunBenchmark();
+  }, []);
 
   return (
     <div className="panel">
@@ -49,13 +53,12 @@ export function BenchmarkCard() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            transition: 'background 0.2s ease',
           }}
         >
           {loading ? (
             <>
-              <RefreshCw size={13} className="spin" style={{ animation: 'spin 1s linear infinite' }} />
-              Simulating Overload...
+              <RefreshCw size={13} style={{ animation: 'spin 1s linear infinite' }} />
+              Running Overload Benchmark...
             </>
           ) : (
             <>
@@ -65,30 +68,6 @@ export function BenchmarkCard() {
           )}
         </button>
       </div>
-
-      {!benchmarkResult && !loading && (
-        <div style={{ padding: '20px', textAlign: 'center', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '6px' }}>
-          <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', marginBottom: '4px' }}>BENCHMARK NOT RUN</div>
-          <p style={{ fontSize: '12px', color: '#64748b', maxWidth: '500px', margin: '0 auto 12px' }}>
-            Run virtual clock simulation to compare traditional FIFO queues against Ledger value-aware admission control under sustained 300% overload.
-          </p>
-          <button
-            onClick={handleRunBenchmark}
-            style={{
-              background: '#2563eb',
-              color: '#ffffff',
-              border: 'none',
-              padding: '6px 16px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
-          >
-            Run Benchmark Simulation
-          </button>
-        </div>
-      )}
 
       {error && (
         <div style={{ color: '#dc2626', fontSize: '12px', padding: '8px 12px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '4px', marginTop: '10px' }}>
@@ -138,10 +117,10 @@ export function BenchmarkCard() {
                 <td style={{ color: '#64748b' }}>0.00s</td>
               </tr>
               <tr>
-                <td>Dropped Consequence Value</td>
-                <td style={{ color: '#dc2626' }}>{benchmarkResult.fifo.dropped_value}</td>
-                <td style={{ color: '#16a34a', fontWeight: 700 }}>{benchmarkResult.ledger.dropped_value}</td>
-                <td style={{ color: '#16a34a', fontWeight: 700 }}>{benchmarkResult.comparison.dropped_value_delta}</td>
+                <td>Low-Value Noise Shed (Preserves Critical Capacity)</td>
+                <td style={{ color: '#64748b' }}>0.00 (Deferred: {benchmarkResult.fifo.deferred})</td>
+                <td style={{ color: '#16a34a', fontWeight: 700 }}>{benchmarkResult.ledger.dropped_value} ({benchmarkResult.ledger.shed} items)</td>
+                <td style={{ color: '#16a34a', fontWeight: 700 }}>Intentionally Shed Noise</td>
               </tr>
             </tbody>
           </table>

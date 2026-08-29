@@ -15,7 +15,7 @@ from fastapi.responses import FileResponse
 
 from app.config import settings
 from app.storage import init_db, AsyncSessionLocal
-from app.storage.repositories import EventRepository, IncidentRepository, ExecutionRepository, IdempotencyRepository
+from app.storage.repositories import EventRepository, IncidentRepository, ValuationRepository, ExecutionRepository, IdempotencyRepository
 from app.coalescing.service import CoalescingService
 from app.ingestion.service import IngestionService
 from app.ingestion.normalizer import EventNormalizer
@@ -36,7 +36,9 @@ from app.api import (
     dashboard_router,
     ws_dashboard_router,
     benchmark_router,
+    admin_router,
 )
+from app.api.dependencies import _global_fault_injector, set_global_worker_pool
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -127,9 +129,15 @@ async def continuous_signal_poller_task():
                 async with AsyncSessionLocal() as session:
                     event_repo = EventRepository(session)
                     incident_repo = IncidentRepository(session)
+                    valuation_repo = ValuationRepository(session)
                     coalescing_service = CoalescingService(incident_repo)
                     ingestion_service = IngestionService(event_repo, EventNormalizer(), coalescing_service)
                     publisher_service = QueuePublisherService(_global_memory_broker, event_repo)
+                    valuation_service = ValueEstimationService(
+                        estimator=RuleBasedValueEstimator(),
+                        repository=valuation_repo,
+                        mode="rule_based",
+                    )
 
                     tenant = TenantState(tenant_id="tenant_default", quota=50.0)
 
@@ -138,6 +146,16 @@ async def continuous_signal_poller_task():
                         if not is_dup:
                             assessment = await valuation_service.assess_work_item(saved_evt)
                             decision = admission_controller.evaluate_admission(saved_evt, assessment, capacity, tenant, evaluation_time=now)
+                            await event_repo.update_admission_scores(
+                                event_id=saved_evt.event_id,
+                                urgency=assessment.urgency,
+                                confidence=assessment.confidence,
+                                consequence=assessment.consequence_of_drop,
+                                compute_cost=assessment.estimated_compute_cost,
+                                admission_score=assessment.expected_value,
+                                admission_decision=decision.decision.value,
+                                admission_reason=decision.reason.value,
+                            )
                             status, msg = await publisher_service.handle_admission_decision(saved_evt, decision)
                             if msg:
                                 admitted_msgs.append(msg)
@@ -145,23 +163,64 @@ async def continuous_signal_poller_task():
                     await session.commit()
                     logger.warning("Pipeline Active: Processed %d live signals (%d admitted to queue stream)", len(all_parsed), len(admitted_msgs))
 
-                # 4. Multi-Worker Pool Execution over Queue Stream
-                if admitted_msgs:
-                    s1, s2 = AsyncSessionLocal(), AsyncSessionLocal()
-                    try:
-                        w1 = LedgerWorker("worker-1", _global_memory_broker, EventRepository(s1), ExecutionRepository(s1), IdempotencyRepository(s1))
-                        w2 = LedgerWorker("worker-2", _global_memory_broker, EventRepository(s2), ExecutionRepository(s2), IdempotencyRepository(s2))
-                        pool = WorkerPool([w1, w2])
-                        await pool.run_step()
-                        await s1.commit()
-                        await s2.commit()
-                    finally:
-                        await s1.close()
-                        await s2.close()
+                logger.warning("Pipeline Active: Processed %d live signals (%d admitted to queue stream)", len(all_parsed), len(admitted_msgs))
 
         except Exception as err:
             logger.warning("Background signal poller iteration error: %s", err)
         await asyncio.sleep(2.0)
+
+
+async def continuous_worker_pool_task():
+    """Background task executing worker pool continuously over global queue broker with recovery coordinator."""
+    from app.api.dependencies import _global_memory_broker
+    from app.recovery.coordinator import RecoveryCoordinator
+
+    # Persistent worker instances
+    async with AsyncSessionLocal() as init_session:
+        event_repo = EventRepository(init_session)
+        exec_repo = ExecutionRepository(init_session)
+        idem_repo = IdempotencyRepository(init_session)
+
+        w1 = LedgerWorker("worker-1", _global_memory_broker, event_repo, exec_repo, idem_repo, fault_injector=_global_fault_injector)
+        w2 = LedgerWorker("worker-2", _global_memory_broker, event_repo, exec_repo, idem_repo, fault_injector=_global_fault_injector)
+        w3 = LedgerWorker("worker-3", _global_memory_broker, event_repo, exec_repo, idem_repo, fault_injector=_global_fault_injector)
+        pool = WorkerPool([w1, w2, w3])
+        set_global_worker_pool(pool)
+
+    recovery_tick = 0
+    while True:
+        try:
+            async with AsyncSessionLocal() as session:
+                event_repo = EventRepository(session)
+                exec_repo = ExecutionRepository(session)
+                idem_repo = IdempotencyRepository(session)
+
+                # Attach current active DB session to persistent workers for execution
+                for w in pool.workers:
+                    w._event_repo = event_repo
+                    w._execution_repo = exec_repo
+                    w._idempotency_repo = idem_repo
+
+                processed = await pool.run_step()
+                
+                # Periodically trigger RecoveryCoordinator scan for stale un-ACKed messages
+                recovery_tick += 1
+                if recovery_tick >= 10:  # Every ~5 seconds
+                    recovery_tick = 0
+                    coordinator = RecoveryCoordinator(
+                        broker=_global_memory_broker,
+                        worker=pool.workers[0],
+                        idempotency_repo=idem_repo,
+                        execution_repo=exec_repo,
+                        worker_pool=pool,
+                    )
+                    await coordinator.run_recovery_scan(min_idle_seconds=1.0)
+
+                if processed > 0:
+                    await session.commit()
+        except Exception as err:
+            logger.warning("Background worker task iteration error: %s", err)
+        await asyncio.sleep(0.5)
 
 
 @asynccontextmanager
@@ -169,14 +228,17 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager for database initialization and background poller."""
     await init_db()
     poller_task = asyncio.create_task(continuous_signal_poller_task())
+    worker_task = asyncio.create_task(continuous_worker_pool_task())
     try:
         yield
     finally:
         poller_task.cancel()
-        try:
-            await poller_task
-        except asyncio.CancelledError:
-            pass
+        worker_task.cancel()
+        for t in (poller_task, worker_task):
+            try:
+                await t
+            except asyncio.CancelledError:
+                pass
 
 
 def create_app() -> FastAPI:
@@ -206,6 +268,7 @@ def create_app() -> FastAPI:
     app.include_router(dashboard_router)
     app.include_router(ws_dashboard_router)
     app.include_router(benchmark_router)
+    app.include_router(admin_router)
 
     # Mount Static React Dashboard UI
     static_dir = Path(__file__).parent / "static"

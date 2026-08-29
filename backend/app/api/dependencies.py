@@ -94,7 +94,28 @@ async def get_admission_controller() -> AdmissionController:
     return AdmissionController()
 
 
+from app.fault_injection.service import FaultInjectionService
+from app.worker.pool import WorkerPool
+
 _global_memory_broker = InMemoryWorkQueue()
+_global_fault_injector = FaultInjectionService()
+_global_worker_pool: WorkerPool | None = None
+
+
+def set_global_worker_pool(pool: WorkerPool) -> None:
+    """Set global WorkerPool singleton for API dependency access."""
+    global _global_worker_pool
+    _global_worker_pool = pool
+
+
+def get_global_worker_pool() -> WorkerPool | None:
+    """Retrieve global WorkerPool singleton."""
+    return _global_worker_pool
+
+
+async def get_fault_injector() -> FaultInjectionService:
+    """Provide FaultInjectionService dependency."""
+    return _global_fault_injector
 
 
 async def get_queue_broker() -> WorkQueueInterface:
@@ -125,6 +146,7 @@ async def get_recovery_coordinator(
         event_repo=event_repo,
         execution_repo=execution_repo,
         idempotency_repo=idempotency_repo,
+        fault_injector=_global_fault_injector,
     )
     return RecoveryCoordinator(
         broker=broker,
@@ -154,4 +176,5 @@ async def get_dashboard_service(
         execution_repo=execution_repo,
         idempotency_repo=idempotency_repo,
         broker=broker,
+        pool=_global_worker_pool,
     )

@@ -112,6 +112,38 @@ class EventRepository(EventRepositoryInterface):
         result = await self._session.execute(stmt)
         return result.rowcount > 0
 
+    async def update_admission_scores(
+        self,
+        event_id: str,
+        urgency: float,
+        confidence: float,
+        consequence: float,
+        compute_cost: float,
+        admission_score: float,
+        admission_decision: str,
+        admission_reason: str,
+    ) -> bool:
+        """Persist valuation and admission metadata to EventORM for lifecycle observability.
+
+        Called after ValueEstimationService and AdmissionController evaluate a work item,
+        so the lifecycle inspector can surface real scores from the DB.
+        """
+        stmt = (
+            update(EventORM)
+            .where(EventORM.event_id == event_id)
+            .values(
+                urgency_score=urgency,
+                confidence_score=confidence,
+                consequence_score=consequence,
+                estimated_compute_cost=compute_cost,
+                admission_score=admission_score,
+                admission_decision=admission_decision,
+                admission_reason=admission_reason,
+            )
+        )
+        result = await self._session.execute(stmt)
+        return result.rowcount > 0
+
     async def count_active_by_tenant(self, tenant_id: str) -> int:
         """Count active events for tenant."""
         active_statuses = [

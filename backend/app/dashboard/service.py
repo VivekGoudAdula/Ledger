@@ -71,13 +71,23 @@ class DashboardService:
                 pass
 
         worker_snapshots = []
-        if self._pool:
-            for status in self._pool.get_pool_status():
+        from app.api.dependencies import _global_fault_injector, get_global_worker_pool
+        pool_to_use = self._pool or get_global_worker_pool()
+
+        if pool_to_use:
+            for status in pool_to_use.get_pool_status():
                 cnt = worker_counts.get(status.worker_id, status.tasks_completed)
+                state = status.state
+                try:
+                    ctrl = await _global_fault_injector.get_worker_control_status(status.worker_id)
+                    state = ctrl.state.value
+                except Exception:
+                    pass
+
                 worker_snapshots.append(
                     WorkerSnapshotDTO(
                         worker_id=status.worker_id,
-                        state=status.state,
+                        state=state,
                         current_task=status.current_task,
                         tasks_completed=max(cnt, status.tasks_completed),
                         tasks_failed=status.tasks_failed,
@@ -85,11 +95,21 @@ class DashboardService:
                 )
 
         if not worker_snapshots:
-            worker_snapshots = [
-                WorkerSnapshotDTO(worker_id="worker-1", state="RUNNING", tasks_completed=worker_counts.get("worker-1", 0)),
-                WorkerSnapshotDTO(worker_id="worker-2", state="RUNNING", tasks_completed=worker_counts.get("worker-2", 0)),
-                WorkerSnapshotDTO(worker_id="worker-3", state="RUNNING", tasks_completed=worker_counts.get("worker-3", 0)),
-            ]
+            for wid in ("worker-1", "worker-2", "worker-3"):
+                state = "RUNNING"
+                try:
+                    ctrl = await _global_fault_injector.get_worker_control_status(wid)
+                    state = ctrl.state.value
+                except Exception:
+                    pass
+
+                worker_snapshots.append(
+                    WorkerSnapshotDTO(
+                        worker_id=wid,
+                        state=state,
+                        tasks_completed=worker_counts.get(wid, 0),
+                    )
+                )
 
         # 3. Query Database for Real Events & Breakdown
         total_ingress = 0
